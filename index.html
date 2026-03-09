@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>R1ntax – Deutsch Trainer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <video id="bgVideo" autoplay muted loop playsinline>
+    <source src="media/background.mp4" type="video/mp4" />
+  </video>
+  <canvas id="particles"></canvas>
+
+  <audio id="bgMusic" src="media/music.mp3" loop></audio>
+  <audio id="correctSound" src="media/correct.mp3" preload="auto"></audio>
+  <audio id="wrongSound" src="media/wrong.mp3" preload="auto"></audio>
+
+  <main class="app-shell">
+    <header class="topbar glass">
+      <div class="brand">
+        <h1>R1ntax – Deutsch Trainer</h1>
+        <p>Игровое изучение немецких слов</p>
+      </div>
+      <div class="profile" id="profileBox">
+        <img id="rankIcon" src="icons/rank1.png" alt="rank" />
+        <div>
+          <strong id="playerName">Гость</strong>
+          <p><span id="rankName">Anfänger</span> · XP: <span id="xpValue">0</span></p>
+        </div>
+      </div>
+    </header>
+
+    <section id="authSection" class="panel glass">
+      <h2>Вход в аккаунт</h2>
+      <p>Поддерживается Firebase Authentication.</p>
+      <div class="auth-grid">
+        <button class="btn auth-btn" data-auth="google">Google / Gmail</button>
+        <button class="btn auth-btn" data-auth="email">Email (демо)</button>
+        <button class="btn auth-btn" data-auth="phone">Телефон (демо)</button>
+        <button class="btn auth-btn" data-auth="facebook">Facebook</button>
+        <button class="btn auth-btn" data-auth="telegram">Telegram (демо)</button>
+      </div>
+      <small id="authHint">Если Firebase не настроен, автоматически включается локальный demo-режим.</small>
+    </section>
+
+    <section id="dashboard" class="hidden">
+      <div class="panel glass stats-grid">
+        <div><h3>Streak</h3><p id="streakValue">0</p></div>
+        <div><h3>Daily</h3><p id="dailyValue">0/10</p></div>
+        <div><h3>Сундуки</h3><p id="chestValue">0</p></div>
+        <div>
+          <h3>Язык</h3>
+          <p id="langDisplay">German → English</p>
+        </div>
+      </div>
+
+      <div class="panel glass">
+        <h2>Выберите режим</h2>
+        <div class="menu-grid">
+          <button class="btn mode-btn" data-mode="cards">📚 Простое изучение слов</button>
+          <button class="btn mode-btn" data-mode="duel">⚔️ Дуэль онлайн</button>
+          <button class="btn mode-btn" data-mode="myWords">✍️ Мои слова</button>
+          <button class="btn mode-btn" data-mode="syn">🔁 Синонимы / Антонимы</button>
+        </div>
+      </div>
+
+      <section id="cardsMode" class="panel glass mode hidden">
+        <h2>Карточки слов</h2>
+        <div id="wordCard" class="word-card">der Apfel</div>
+        <div id="cardOptions" class="options"></div>
+        <p id="cardFeedback" class="feedback"></p>
+      </section>
+
+      <section id="duelMode" class="panel glass mode hidden">
+        <h2>Онлайн-дуэль</h2>
+        <p>Соперники получают одинаковые слова. Учитываются скорость и правильность.</p>
+        <button class="btn" id="findDuelBtn">Найти соперника</button>
+        <div id="duelInfo" class="duel-box">Ожидание старта...</div>
+        <div id="duelQuestion" class="word-card hidden"></div>
+        <div id="duelOptions" class="options"></div>
+      </section>
+
+      <section id="myWordsMode" class="panel glass mode hidden">
+        <h2>Мои слова (до 50)</h2>
+        <div class="inputs">
+          <input id="myGerman" placeholder="German word" />
+          <input id="myTranslation" placeholder="Translation" />
+          <button class="btn" id="addWordBtn">Добавить</button>
+        </div>
+        <div id="myWordsList" class="list"></div>
+      </section>
+
+      <section id="synMode" class="panel glass mode hidden">
+        <h2>Синонимы и антонимы</h2>
+        <p id="synTask"></p>
+        <div id="synWord" class="word-card"></div>
+        <div id="synOptions" class="options"></div>
+        <p id="synFeedback" class="feedback"></p>
+      </section>
+
+      <section class="panel glass">
+        <h2>Leaderboard Top-100</h2>
+        <div id="leaderboard" class="list"></div>
+      </section>
+
+      <section class="panel glass settings">
+        <h2>Настройки</h2>
+        <label for="manualLanguage">Язык перевода вручную</label>
+        <select id="manualLanguage"></select>
+        <button class="btn" id="musicToggle">🎵 Music: OFF</button>
+        <button class="btn" id="logoutBtn">Выйти</button>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
